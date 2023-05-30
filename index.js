@@ -10,7 +10,12 @@ import morgan from 'morgan';
 const PORT = process.env.PORT ?? 3000
 const app = express()
 
-app.use(cors())
+app.use(cors(
+    {
+      methods: ['GET'],
+      origin: [`http://localhost:${PORT}`, 'https://chat.openai.com']
+    }
+  ))
 
 app.use(helmet());
 app.use(bodyParser.json());

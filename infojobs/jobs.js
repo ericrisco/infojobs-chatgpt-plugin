@@ -12,8 +12,9 @@ const OFFER_ID_URL = 'https://api.infojobs.net/api/7/offer/';
 
 async function getOffersByQuery(query) {
 	let url = OFFER_LIST_URL;
+    console.log(query);
 	url += 'order=updated-desc';
-	url += '&maxResults=3';
+	url += '&maxResults=' + (query.maxResults ? query.maxResults : 3);
 	url += '&sinceDate=_7_DAYS';
 	url += query.category !== '' ? '&category=' + encodeURIComponent(query.category) : '';
 	url += query.keywords !== '' ? '&q=descripcion:' + encodeURIComponent(formatKeywords(query.keywords)) : '';
@@ -28,6 +29,8 @@ async function getOffersByQuery(query) {
         }
     }
 
+    console.log(url);
+
 	const res = await fetch(url, {
 		headers: {
 			'Content-Type': 'application/json',
@@ -41,7 +44,26 @@ async function getOffersByQuery(query) {
     const offers = [];
     
     for (let item of items) {
-        const offer = await getOfferById(item.id);
+        let offer = await getOfferById(item.id);
+        offer = {
+            id: offer.id,
+            title: offer.title,
+            city: offer.city,
+            province: offer.province?.value,
+            experienceMin: offer.experienceMin?.value,
+            category: offer.category?.value,
+            subcategory: offer.subcategory?.value,
+            country: offer.country?.value,
+            teleworking: offer.teleworking?.value,
+            companyName: offer.profile?.name,
+            companyDescription: offer.profile?.description,
+            description: offer.description,
+            maxPay: offer.maxPay?.amountValue,
+            minPay: offer.minPay?.amountValue,
+            salaryDescription: offer.salaryDescription,
+            link: offer.link,
+            skills: offer.skillsList?.map((skill) => skill.skill)
+        }
         offers.push(offer);
     }
 
@@ -61,14 +83,12 @@ async function getOfferById(offerId) {
 	return await res.json();
 }
 
-function formatKeywords(text) {
-	const keywords = text.split(',').map((keyword) => keyword.trim());
-
-	const filteredKeywords = keywords.filter((keyword) => keyword.length > 4);
-
-	const formattedString = filteredKeywords.join('*');
-
-	return `*${formattedString}*`;
+function formatKeywords(text) {    
+    text = text.toLowerCase();
+    text = text.replace(/\s/g, '*');
+    text = text.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    text = text.replace(/[^a-z0-9*]/g, "");
+	return `*${text}*`;
 }
 
 export {

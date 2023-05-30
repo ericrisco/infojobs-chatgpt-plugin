@@ -14,6 +14,14 @@ paths:
         - infojobs
       parameters:
         - in: query
+          name: maxResults
+          required: true
+          description: Maximum number of results to return. Default and minimum value is 3.
+          schema:
+            type: integer
+            default: 3
+            minimum: 3
+        - in: query
           name: keywords
           required: true
           description: Summarize the description with maximum 4 precise and concrete keywords without including geographic names. Keywords should be separated by an asterisk without spaces or the Spanish articles 'de', 'el', 'la'
@@ -74,131 +82,56 @@ components:
     JobPosition:
       type: object
       properties:
-        title:
-          type: string
-          description: El título del puesto de trabajo
         id:
           type: string
-          description: ID único de la oferta de trabajo
+          description: Unique ID of the job offer
+        title:
+          type: string
+          description: Title of the job position
         city:
           type: string
-          description: La ciudad en la que se ubica el trabajo
-        url:
-          type: string
-          description: URL del anuncio de trabajo
+          description: City where the job is located
         province:
-          $ref: '#/components/schemas/Province'
-        category:
-          $ref: '#/components/schemas/Category'
-        subcategory:
-          $ref: '#/components/schemas/Subcategory'
-        studiesMin:
-          $ref: '#/components/schemas/Studies'
-        country:
-          $ref: '#/components/schemas/Country'
-        teleworking:
-          $ref: '#/components/schemas/Teleworking'
-        minRequirements:
           type: string
-          description: Requisitos mínimos para el puesto
+          description: Province where the job is located
+        experienceMin:
+          type: string
+          description: Minimum experience required for the job
+        category:
+          type: string
+          description: Category of the job
+        subcategory:
+          type: string
+          description: Subcategory of the job
+        country:
+          type: string
+          description: Country where the job is located
+        teleworking:
+          type: string
+          description: Indicates if the job offers teleworking options
+        companyName:
+          type: string
+          description: Name of the company offering the job
+        companyDescription:
+          type: string
+          description: Description of the company
         description:
           type: string
-          description: Descripción del puesto de trabajo
-        desiredRequirements:
-          type: string
-          description: Requisitos deseados para el puesto
-        company:
-          $ref: '#/components/schemas/Company'
+          description: Description of the job position
         maxPay:
-          $ref: '#/components/schemas/Salary'
+          type: string
+          description: Maximum salary for the job
         minPay:
-          $ref: '#/components/schemas/Salary'
+          type: string
+          description: Minimum salary for the job
+        salaryDescription:
+          type: string
+          description: Description of the salary
+        link:
+          type: string
+          description: Link to the job offer
         skills:
           type: array
           items:
-            $ref: '#/components/schemas/Skill'
-        benefits:
-          type: string
-          description: Beneficios del puesto de trabajo
-        functions:
-          type: string
-          description: Funciones del puesto de trabajo
-
-    Province:
-      type: object
-      properties:
-        id:
-          type: integer
-        value:
-          type: string
-          description: Nombre de la provincia
-
-    Category:
-      type: object
-      properties:
-        id:
-          type: integer
-        value:
-          type: string
-          description: Categoría del puesto
-
-    Subcategory:
-      type: object
-      properties:
-        id:
-          type: integer
-        value:
-          type: string
-          description: Subcategoría del puesto
-
-    Studies:
-      type: object
-      properties:
-        id:
-          type: integer
-        value:
-          type: string
-          description: Nivel de estudios mínimos requeridos
-
-    Country:
-      type: object
-      properties:
-        id:
-          type: integer
-        value:
-          type: string
-          description: País en el que se ubica el puesto
-
-    Teleworking:
-      type: object
-      properties:
-        id:
-          type: integer
-        value:
-          type: string
-          description: Información sobre el teletrabajo
-
-    Company:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          description: Nombre de la empresa
-
-    Salary:
-      type: object
-      properties:
-        amount:
-          type: integer
-        periodValue:
-          type: string
-          description: Periodo de salario (anual, mensual, etc.)
-
-    Skill:
-      type: object
-      properties:
-        skill:
-          type: string
-          description: Habilidad requerida para el puesto
+            type: string
+            description: Skills required for the job
