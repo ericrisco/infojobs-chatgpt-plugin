@@ -1,0 +1,1 @@
+# InfoJobs ChatGPT Plugin

@@ -1,0 +1,204 @@
+openapi: 3.0.1
+
+info:
+  title: Search jobs in InfoJobs using ChatGPT
+  version: 1.0.0
+  description: Search jobs in InfoJobs using ChatGPT
+
+paths:
+  /search:
+    get:
+      summary: Search Infojobs Job positions using a query
+      operationId: searchjobs
+      tags:
+        - infojobs
+      parameters:
+        - in: query
+          name: keywords
+          required: true
+          description: Summarize the description with maximum 4 precise and concrete keywords without including geographic names. Keywords should be separated by an asterisk without spaces or the Spanish articles 'de', 'el', 'la'
+          schema:
+            type: string
+            pattern: '^([^\s]*\*?){0,4}$'
+        - in: query
+          name: cities
+          required: true
+          description: List of cities for job search Input as an array of strings
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: category
+          required: true
+          description: Choose a value from the category list based on your judgment and the user's input text.
+          schema:
+            type: string
+            enum:
+              - administracion-publica
+              - administracion-empresas
+              - atencion-a-cliente
+              - calidad-produccion-id
+              - comercial-ventas
+              - compras-logistica-almacen
+              - diseno-artes-graficas
+              - educacion-formacion
+              - finanzas-banca
+              - informatica-telecomunicaciones
+              - ingenieros-tecnicos
+              - inmobiliario-construccion
+              - legal
+              - marketing-comunicacion
+              - profesiones-artes-oficios
+              - recursos-humanos
+              - sanidad-salud
+              - sector-farmaceutico
+              - turismo-restauracion
+              - venta-detalle
+              - otros
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  repos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/JobPosition'
+
+components:
+  schemas:
+    JobPosition:
+      type: object
+      properties:
+        title:
+          type: string
+          description: El título del puesto de trabajo
+        id:
+          type: string
+          description: ID único de la oferta de trabajo
+        city:
+          type: string
+          description: La ciudad en la que se ubica el trabajo
+        url:
+          type: string
+          description: URL del anuncio de trabajo
+        province:
+          $ref: '#/components/schemas/Province'
+        category:
+          $ref: '#/components/schemas/Category'
+        subcategory:
+          $ref: '#/components/schemas/Subcategory'
+        studiesMin:
+          $ref: '#/components/schemas/Studies'
+        country:
+          $ref: '#/components/schemas/Country'
+        teleworking:
+          $ref: '#/components/schemas/Teleworking'
+        minRequirements:
+          type: string
+          description: Requisitos mínimos para el puesto
+        description:
+          type: string
+          description: Descripción del puesto de trabajo
+        desiredRequirements:
+          type: string
+          description: Requisitos deseados para el puesto
+        company:
+          $ref: '#/components/schemas/Company'
+        maxPay:
+          $ref: '#/components/schemas/Salary'
+        minPay:
+          $ref: '#/components/schemas/Salary'
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/Skill'
+        benefits:
+          type: string
+          description: Beneficios del puesto de trabajo
+        functions:
+          type: string
+          description: Funciones del puesto de trabajo
+
+    Province:
+      type: object
+      properties:
+        id:
+          type: integer
+        value:
+          type: string
+          description: Nombre de la provincia
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        value:
+          type: string
+          description: Categoría del puesto
+
+    Subcategory:
+      type: object
+      properties:
+        id:
+          type: integer
+        value:
+          type: string
+          description: Subcategoría del puesto
+
+    Studies:
+      type: object
+      properties:
+        id:
+          type: integer
+        value:
+          type: string
+          description: Nivel de estudios mínimos requeridos
+
+    Country:
+      type: object
+      properties:
+        id:
+          type: integer
+        value:
+          type: string
+          description: País en el que se ubica el puesto
+
+    Teleworking:
+      type: object
+      properties:
+        id:
+          type: integer
+        value:
+          type: string
+          description: Información sobre el teletrabajo
+
+    Company:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: Nombre de la empresa
+
+    Salary:
+      type: object
+      properties:
+        amount:
+          type: integer
+        periodValue:
+          type: string
+          description: Periodo de salario (anual, mensual, etc.)
+
+    Skill:
+      type: object
+      properties:
+        skill:
+          type: string
+          description: Habilidad requerida para el puesto
