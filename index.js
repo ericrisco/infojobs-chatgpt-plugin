@@ -10,6 +10,8 @@ import morgan from 'morgan';
 const PORT = process.env.PORT ?? 3000
 const app = express()
 
+app.use(express.static(path.join(process.cwd(), 'public')));
+
 app.use(cors(
     {
       methods: ['GET'],
@@ -35,10 +37,6 @@ app.get('/openai.yaml', async (req, res, next) => {
 
 app.get('/.well-known/ai-plugin.json', (req, res) => {
   res.sendFile(path.join(process.cwd(), '.well-known/ai-plugin.json'))
-})
-
-app.get('/logo.png', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'logo.png'))
 })
 
 app.get('/search', async (req, res) => {

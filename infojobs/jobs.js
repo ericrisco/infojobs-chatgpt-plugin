@@ -16,8 +16,8 @@ async function getOffersByQuery(query) {
 	url += 'order=updated-desc';
 	url += '&maxResults=' + (query.maxResults ? query.maxResults : 3);
 	url += '&sinceDate=_7_DAYS';
-	url += query.category !== '' ? '&category=' + encodeURIComponent(query.category) : '';
-	url += query.keywords !== '' ? '&q=descripcion:' + encodeURIComponent(formatKeywords(query.keywords)) : '';
+	url += query.category ? '&category=' + encodeURIComponent(query.category) : '';
+	url += query.keywords ? '&q=descripcion:' + encodeURIComponent(formatKeywords(query.keywords)) : '';
 
     if (Array.isArray(query.cities)) {
         query.cities.forEach((city) => {

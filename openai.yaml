@@ -15,7 +15,7 @@ paths:
       parameters:
         - in: query
           name: maxResults
-          required: true
+          required: false
           description: Maximum number of results to return. Default and minimum value is 3.
           schema:
             type: integer
@@ -23,14 +23,14 @@ paths:
             minimum: 3
         - in: query
           name: keywords
-          required: true
-          description: Summarize the description with maximum 4 precise and concrete keywords without including geographic names. Keywords should be separated by an asterisk without spaces or the Spanish articles 'de', 'el', 'la'
+          required: false
+          description: Summarize the description with maximum 4 precise and concrete keywords without including geographic names. Keywords should be separated by an asterisk without spaces or the Spanish articles 'de', 'el', 'la'. Don't fill this field if you want to search for all job positions.
           schema:
             type: string
             pattern: '^([^\s]*\*?){0,4}$'
         - in: query
           name: cities
-          required: true
+          required: false
           description: List of cities for job search Input as an array of strings
           schema:
             type: array
@@ -38,8 +38,8 @@ paths:
               type: string
         - in: query
           name: category
-          required: true
-          description: Choose a value from the category list based on your judgment and the user's input text.
+          required: false
+          description: Choose a value from the category list based on your judgment and the user's input text. Don't fill this field if you want to search for all job categories.
           schema:
             type: string
             enum:
