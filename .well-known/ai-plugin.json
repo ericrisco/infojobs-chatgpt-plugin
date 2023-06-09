@@ -2,8 +2,8 @@
     "schema_version": "v1",
     "name_for_human": "InfoJobs Search Jobs",
     "name_for_model": "infojobs_search_jobs",
-    "description_for_human": "Search jobs on InfoJobs using ChatGPT.",
-    "description_for_model": "Plugin for searching jobs on InfoJobs using ChatGPT.",
+    "description_for_human": "Search jobs on InfoJobs.",
+    "description_for_model": "Plugin for searching jobs on InfoJobs.",
     "auth": {
       "type": "none"
     },
